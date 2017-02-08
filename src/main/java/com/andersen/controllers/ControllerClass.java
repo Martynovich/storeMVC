@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 @Controller
 public class ControllerClass {
 
-    Logger logger = Logger.getLogger(ControllerClass.class);
+    private Logger logger = Logger.getLogger(ControllerClass.class);
 
     @RequestMapping("/")
     public ModelAndView start() {
@@ -53,7 +52,7 @@ public class ControllerClass {
         ClientService clientService = (ClientService) context.getBean("clientService");
         List<Client> clientList = clientService.findAll();
         for (Client client : clientList) {
-            if (clientLogin.equals("") || clientLogin == null) {
+            if (clientLogin.equals("")) {
                 message = "\nLogin is empty.";
                 return new ModelAndView("answerPage", "message", message);
             }
@@ -70,7 +69,7 @@ public class ControllerClass {
     @RequestMapping("/findClient")
     public ModelAndView findClient(HttpServletRequest req) {
         logger.info("Start finding client.");
-        Integer id = null;
+        Integer id ;
         try {
             id = Integer.parseInt(req.getParameter("clientIdToFind"));
         } catch (NumberFormatException e) {
@@ -169,7 +168,7 @@ public class ControllerClass {
         if ((productName == null)||(productName.equals(""))) {
             return new ModelAndView("answerPage", "message", "The product mast have a name.");
         }
-        if((price == null)||(price == 0)) {
+        if(price == 0) {
             return new ModelAndView("answerPage", "message", "The product mast have prise bigger then 0.");
         }
         List<Product> products = service.findAll();
